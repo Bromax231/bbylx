@@ -155,6 +155,53 @@
             }
         }
         .product-details {
+            text-align: center; /* Align text to the right for Arabic */
+            font-family: Arial, sans-serif;
+        }
+        .product-details img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+        .product-details h2 {
+            color: #333;
+            margin-bottom: 10px;
+        }
+        .product-details .price {
+            font-weight: bold;
+            color: #e91e63;
+            margin-bottom: 10px;
+        }
+        .product-details .description {
+            color: #666;
+            margin-bottom: 20px;
+        }
+        .product-details .add-to-cart-button,
+        .product-details .close-button {
+            padding: 10px 20px;
+            margin: 5px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+        .product-details .add-to-cart-button {
+            background-color: #4CAF50;
+            color: white;
+        }
+        .product-details .close-button {
+            background-color: #f44336;
+            color: white;
+        }
+        .product-details .add-to-cart-button:hover {
+            background-color: #45a049;
+        }
+        .product-details .close-button:hover {
+            background-color: #d32f2f;
+        }
+        .product-details {
             text-align: right; /* Align text to the right for Arabic */
         }
     </style>
@@ -215,12 +262,12 @@
     <script>
         // Sample product data
         const products = [
-            { id: 1, name: "قميص أطفال", price: 49.99, image: "/placeholder.svg?height=250&width=250" },
-            { id: 2, name: "فستان بناتي", price: 59.99, image: "/placeholder.svg?height=250&width=250" },
-            { id: 3, name: "بنطلون جينز", price: 39.99, image: "/placeholder.svg?height=250&width=250" },
-            { id: 4, name: "حذاء رياضي", price: 29.99, image: "/placeholder.svg?height=250&width=250" },
-            { id: 5, name: "تي شيرت مطبوع", price: 19.99, image: "/placeholder.svg?height=250&width=250" },
-            { id: 6, name: "جاكيت شتوي", price: 69.99, image: "/placeholder.svg?height=250&width=250" },
+            { id: 1, name: "قميص أطفال", price: 49.99, image: "https://i.imgur.com/3jYyY0G.jpg", description: "قميص أنيق للأطفال مصنوع من القطن الناعم. مناسب للمناسبات الخاصة والاستخدام اليومي." },
+            { id: 2, name: "فستان بناتي", price: 59.99, image: "https://i.imgur.com/ZtrZT4G.jpg", description: "فستان جميل للبنات بألوان زاهية. مريح وأنيق، مثالي للحفلات وأيام الصيف." },
+            { id: 3, name: "بنطلون جينز", price: 39.99, image: "https://i.imgur.com/6CJJ3EK.jpg", description: "بنطلون جينز متين للأطفال. مناسب لجميع المناسبات ويتحمل اللعب والحركة." },
+            { id: 4, name: "حذاء رياضي", price: 29.99, image: "https://i.imgur.com/LtDpdZx.jpg", description: "حذاء رياضي مريح للأطفال. مثالي للرياضة واللعب، يوفر الدعم والراحة للقدمين." },
+            { id: 5, name: "تي شيرت مطبوع", price: 19.99, image: "https://i.imgur.com/Jm2XI8I.jpg", description: "تي شيرت مطبوع بتصاميم ممتعة للأطفال. مصنوع من قطن ناعم ومريح للارتداء اليومي." },
+            { id: 6, name: "جاكيت شتوي", price: 69.99, image: "https://i.imgur.com/h1xFOsZ.jpg", description: "جاكيت شتوي دافئ للأطفال. يوفر الحماية من البرد مع تصميم أنيق وعملي." },
         ];
 
         // Function to create product cards
@@ -328,11 +375,12 @@
             if (product) {
                 const detailsHTML = `
                     <div class="product-details">
-                        <img src="${product.image}" alt="${product.name}" class="product-image">
+                        <img src="${product.image}" alt="${product.name}" class="product-image" style="max-width: 300px; height: auto;">
                         <h2>${product.name}</h2>
-                        <p>السعر: ${product.price.toFixed(2)} ريال</p>
-                        <p>الوصف: هذا وصف تفصيلي للمنتج. يمكنك إضافة المزيد من المعلومات هنا.</p>
-                        <button onclick="closeProductDetails()" data-translate="close">إغلاق</button>
+                        <p class="price">السعر: ${product.price.toFixed(2)} ريال</p>
+                        <p class="description">${product.description}</p>
+                        <button onclick="addToCart(${product.id})" class="add-to-cart-button" data-translate="add_to_cart">أضف إلى السلة</button>
+                        <button onclick="closeProductDetails()" class="close-button" data-translate="close">إغلاق</button>
                     </div>
                 `;
                 const detailsContainer = document.createElement('div');
@@ -345,6 +393,10 @@
                 detailsContainer.style.padding = '20px';
                 detailsContainer.style.boxShadow = '0 0 10px rgba(0,0,0,0.5)';
                 detailsContainer.style.zIndex = '1000';
+                detailsContainer.style.maxWidth = '80%';
+                detailsContainer.style.maxHeight = '80%';
+                detailsContainer.style.overflow = 'auto';
+                detailsContainer.style.borderRadius = '10px';
                 document.body.appendChild(detailsContainer);
             }
         }
