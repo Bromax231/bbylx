@@ -3,18 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title data-translate="latest_collections">متجر ملابس الأطفال</title>
+    <title data-translate="store_title">BBLX - متجر ملابس الأطفال العصري</title>
     <style>
-        /* Reset and base styles */
+        @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;700&display=swap');
+        
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Tajawal', sans-serif;
             line-height: 1.6;
             color: #333;
+            background-color: #f0f2f5;
         }
         .container {
             max-width: 1200px;
@@ -24,8 +26,8 @@
 
         /* Header styles */
         header {
-            background-color: #fff;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            background-color: #ffffff;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
             position: sticky;
             top: 0;
             z-index: 1000;
@@ -34,46 +36,63 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 20px 0;
+            padding: 15px 0;
         }
         .logo {
-            font-size: 24px;
+            font-size: 28px;
             font-weight: bold;
-            color: #e91e63;
+            color: #3498db;
+            text-decoration: none;
         }
         .nav-links {
             display: flex;
             list-style: none;
         }
         .nav-links li {
-            margin-left: 20px;
+            margin-left: 30px;
         }
         .nav-links a {
             text-decoration: none;
             color: #333;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+        .nav-links a:hover {
+            color: #3498db;
         }
 
         /* Hero section */
         .hero {
-            background-color: #f8f8f8;
-            padding: 60px 0;
+            background: linear-gradient(135deg, #3498db, #8e44ad);
+            color: #fff;
+            padding: 100px 0;
             text-align: center;
         }
         .hero h1 {
-            font-size: 36px;
+            font-size: 48px;
             margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
         }
         .hero p {
-            font-size: 18px;
+            font-size: 20px;
             margin-bottom: 30px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
         }
         .btn {
             display: inline-block;
-            background-color: #e91e63;
-            color: #fff;
-            padding: 10px 20px;
+            background-color: #fff;
+            color: #3498db;
+            padding: 12px 24px;
             text-decoration: none;
-            border-radius: 5px;
+            border-radius: 30px;
+            font-weight: bold;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+        .btn:hover {
+            background-color: #3498db;
+            color: #fff;
         }
 
         /* Product grid */
@@ -81,17 +100,18 @@
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
             gap: 30px;
-            padding: 40px 0;
+            padding: 60px 0;
         }
         .product-card {
             background-color: #fff;
-            border-radius: 5px;
+            border-radius: 10px;
             overflow: hidden;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            transition: transform 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
         .product-card:hover {
             transform: translateY(-5px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.15);
         }
         .product-image {
             width: 100%;
@@ -104,28 +124,119 @@
         .product-title {
             font-size: 18px;
             margin-bottom: 10px;
+            color: #333;
         }
         .product-price {
             font-weight: bold;
-            color: #e91e63;
+            color: #3498db;
+            font-size: 20px;
+            margin-bottom: 15px;
+        }
+        .product-buttons {
+            display: flex;
+            justify-content: space-between;
+        }
+        .add-to-cart, .view-details {
+            padding: 8px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+        .add-to-cart {
+            background-color: #3498db;
+            color: #fff;
+        }
+        .add-to-cart:hover {
+            background-color: #2980b9;
+        }
+        .view-details {
+            background-color: #f0f2f5;
+            color: #333;
+        }
+        .view-details:hover {
+            background-color: #e0e3e8;
+        }
+
+        /* Product Details Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1001;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.6);
+        }
+        .modal-content {
+            background-color: #fefefe;
+            margin: 10% auto;
+            padding: 30px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 600px;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+        .close {
+            color: #aaa;
+            float: left;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .close:hover,
+        .close:focus {
+            color: #000;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        .modal-image {
+            width: 100%;
+            max-height: 300px;
+            object-fit: cover;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+        .modal-title {
+            font-size: 24px;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        .modal-price {
+            font-size: 22px;
+            font-weight: bold;
+            color: #3498db;
+            margin-bottom: 15px;
+        }
+        .modal-description {
+            margin-bottom: 20px;
+            line-height: 1.6;
         }
 
         /* Footer styles */
         footer {
-            background-color: #333;
+            background-color: #34495e;
             color: #fff;
-            padding: 40px 0;
+            padding: 60px 0;
         }
         .footer-content {
             display: flex;
             justify-content: space-between;
+            flex-wrap: wrap;
         }
         .footer-section {
             flex: 1;
             margin-right: 30px;
+            margin-bottom: 20px;
+            min-width: 200px;
         }
         .footer-section h3 {
             margin-bottom: 20px;
+            font-size: 18px;
+            color: #3498db;
         }
         .footer-links {
             list-style: none;
@@ -136,6 +247,26 @@
         .footer-links a {
             color: #fff;
             text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        .footer-links a:hover {
+            color: #3498db;
+        }
+
+        /* Language Selector */
+        .language-selector {
+            background-color: transparent;
+            border: 2px solid #3498db;
+            color: #3498db;
+            padding: 8px 15px;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            font-weight: bold;
+        }
+        .language-selector:hover {
+            background-color: #3498db;
+            color: #fff;
         }
 
         /* Responsive styles */
@@ -153,63 +284,19 @@
                 margin-right: 0;
                 margin-bottom: 30px;
             }
-        }
-        .product-details {
-            text-align: center; /* Align text to the right for Arabic */
-            font-family: Arial, sans-serif;
-        }
-        .product-details img {
-            max-width: 100%;
-            height: auto;
-            border-radius: 8px;
-            margin-bottom: 15px;
-        }
-        .product-details h2 {
-            color: #333;
-            margin-bottom: 10px;
-        }
-        .product-details .price {
-            font-weight: bold;
-            color: #e91e63;
-            margin-bottom: 10px;
-        }
-        .product-details .description {
-            color: #666;
-            margin-bottom: 20px;
-        }
-        .product-details .add-to-cart-button,
-        .product-details .close-button {
-            padding: 10px 20px;
-            margin: 5px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-weight: bold;
-            transition: background-color 0.3s;
-        }
-        .product-details .add-to-cart-button {
-            background-color: #4CAF50;
-            color: white;
-        }
-        .product-details .close-button {
-            background-color: #f44336;
-            color: white;
-        }
-        .product-details .add-to-cart-button:hover {
-            background-color: #45a049;
-        }
-        .product-details .close-button:hover {
-            background-color: #d32f2f;
-        }
-        .product-details {
-            text-align: right; /* Align text to the right for Arabic */
+            .hero h1 {
+                font-size: 36px;
+            }
+            .hero p {
+                font-size: 18px;
+            }
         }
     </style>
 </head>
 <body>
     <header>
         <nav class="container">
-            <div class="logo">متجر الأطفال</div>
+            <a href="#" class="logo">BBLX</a>
             <ul class="nav-links">
                 <li><a href="#home" data-translate="home">الرئيسية</a></li>
                 <li><a href="#products" data-translate="products">المنتجات</a></li>
@@ -223,8 +310,8 @@
     <main>
         <section class="hero">
             <div class="container">
-                <h1 data-translate="latest_collections">أحدث تشكيلات ملابس الأطفال</h1>
-                <p data-translate="discover">اكتشف مجموعتنا الرائعة من الملابس العصرية والمريحة لأطفالك</p>
+                <h1 data-translate="latest_collections">أحدث تشكيلات BBLX لملابس الأطفال</h1>
+                <p data-translate="discover">اكتشف مجموعتنا الرائعة من الملابس العصرية والمريحة لأطفالك. تصاميم فريدة تجمع بين الأناقة والراحة.</p>
                 <a href="#products" class="btn" data-translate="shop_now">تسوق الآن</a>
             </div>
         </section>
@@ -236,14 +323,25 @@
         </section>
     </main>
 
+    <div id="productModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <img id="modalImage" src="" alt="" class="modal-image">
+            <h2 id="modalTitle" class="modal-title"></h2>
+            <p id="modalPrice" class="modal-price"></p>
+            <p id="modalDescription" class="modal-description"></p>
+            <button id="modalAddToCart" class="add-to-cart" data-translate="add_to_cart">أضف إلى السلة</button>
+        </div>
+    </div>
+
     <footer>
         <div class="container footer-content">
             <div class="footer-section">
-                <h3>عن المتجر</h3>
-                <p>نحن نقدم أفضل ملابس الأطفال بجودة عالية وأسعار مناسبة.</p>
+                <h3 data-translate="about_store">عن BBLX</h3>
+                <p data-translate="store_description">نحن في BBLX نقدم أفضل ملابس الأطفال بجودة عالية وتصاميم عصرية بأسعار مناسبة.</p>
             </div>
             <div class="footer-section">
-                <h3>روابط سريعة</h3>
+                <h3 data-translate="quick_links">روابط سريعة</h3>
                 <ul class="footer-links">
                     <li><a href="#home" data-translate="home">الرئيسية</a></li>
                     <li><a href="#products" data-translate="products">المنتجات</a></li>
@@ -252,8 +350,8 @@
                 </ul>
             </div>
             <div class="footer-section">
-                <h3>تواصل معنا</h3>
-                <p>البريد الإلكتروني: info@kidstore.com</p>
+                <h3 data-translate="contact_us">تواصل معنا</h3>
+                <p>البريد الإلكتروني: info@bblx.com</p>
                 <p>الهاتف: 123-456-7890</p>
             </div>
         </div>
@@ -262,12 +360,12 @@
     <script>
         // Sample product data
         const products = [
-            { id: 1, name: "قميص أطفال", price: 49.99, image: "https://i.imgur.com/3jYyY0G.jpg", description: "قميص أنيق للأطفال مصنوع من القطن الناعم. مناسب للمناسبات الخاصة والاستخدام اليومي." },
-            { id: 2, name: "فستان بناتي", price: 59.99, image: "https://i.imgur.com/ZtrZT4G.jpg", description: "فستان جميل للبنات بألوان زاهية. مريح وأنيق، مثالي للحفلات وأيام الصيف." },
-            { id: 3, name: "بنطلون جينز", price: 39.99, image: "https://i.imgur.com/6CJJ3EK.jpg", description: "بنطلون جينز متين للأطفال. مناسب لجميع المناسبات ويتحمل اللعب والحركة." },
-            { id: 4, name: "حذاء رياضي", price: 29.99, image: "https://i.imgur.com/LtDpdZx.jpg", description: "حذاء رياضي مريح للأطفال. مثالي للرياضة واللعب، يوفر الدعم والراحة للقدمين." },
-            { id: 5, name: "تي شيرت مطبوع", price: 19.99, image: "https://i.imgur.com/Jm2XI8I.jpg", description: "تي شيرت مطبوع بتصاميم ممتعة للأطفال. مصنوع من قطن ناعم ومريح للارتداء اليومي." },
-            { id: 6, name: "جاكيت شتوي", price: 69.99, image: "https://i.imgur.com/h1xFOsZ.jpg", description: "جاكيت شتوي دافئ للأطفال. يوفر الحماية من البرد مع تصميم أنيق وعملي." },
+            { id: 1, name: "قميص BBLX كلاسيكي", price: 79.99, image: "https://picsum.photos/id/999/300/300", description: "قميص أنيق ومريح من BBLX، مصنوع من القطن الفاخر ومناسب للأطفال في مختلف المناسبات." },
+            { id: 2, name: "فستان BBLX المزركش", price: 89.99, image: "https://picsum.photos/id/1011/300/300", description: "فستان جميل وعصري للفتيات الصغيرات من BBLX، مثالي للحفلات والمناسبات الخاصة." },
+            { id: 3, name: "بنطلون BBLX الرياضي", price: 69.99, image: "https://picsum.photos/id/1005/300/300", description: "بنطلون رياضي مريح ومتين من BBLX، مناسب للارتداء اليومي والأنشطة الرياضية." },
+            { id: 4, name: "حذاء BBLX الأنيق", price: 59.99, image: "https://picsum.photos/id/1020/300/300", description: "حذاء أنيق وخفيف من BBLX، مثالي للمناسبات الرسمية والحفلات." },
+            { id: 5, name: "تي شيرت BBLX المطبوع", price: 49.99, image: "https://picsum.photos/id/1003/300/300", description: "تي شيرت قطني ناعم من BBLX مع طباعة ممتعة، مناسب للإطلالات اليومية الأنيقة." },
+            { id: 6, name: "جاكيت BBLX الشتوي", price: 99.99, image: "https://picsum.photos/id/1001/300/300", description: "جاكيت دافئ ومقاوم للماء من BBLX، مثالي لفصل الشتاء ويوفر الحماية والأناقة." },
         ];
 
         // Function to create product cards
@@ -277,9 +375,11 @@
                     <img src="${product.image}" alt="${product.name}" class="product-image">
                     <div class="product-info">
                         <h3 class="product-title">${product.name}</h3>
-                        <p class="product-price">${product.price} ريال</p>
-                        <button class="add-to-cart" onclick="addToCart(${product.id})" data-translate="add_to_cart">أضف إلى السلة</button>
-                        <button class="view-details" onclick="viewProductDetails(${product.id})" data-translate="view_details">عرض التفاصيل</button>
+                        <p class="product-price">${product.price.toFixed(2)} ريال</p>
+                        <div class="product-buttons">
+                            <button class="add-to-cart" onclick="addToCart(${product.id})" data-translate="add_to_cart">أضف إلى السلة</button>
+                            <button class="view-details" onclick="viewProductDetails(${product.id})" data-translate="view_details">عرض التفاصيل</button>
+                        </div>
                     </div>
                 </div>
             `;
@@ -291,11 +391,10 @@
             productGrid.innerHTML += createProductCard(product);
         });
 
-
         // Language toggle functionality
         const languageSelector = document.querySelector('.language-selector');
         let currentLanguage = 'ar';
-        const languages = ['ar', 'sv', 'en'];
+        const languages = ['ar', 'en', 'sv'];
 
         languageSelector.addEventListener('click', function() {
             const currentIndex = languages.indexOf(currentLanguage);
@@ -305,9 +404,8 @@
         });
 
         function updateLanguage() {
-            const languageEmojis = { 'ar': '🇸🇦', 'sv': '🇸🇪', 'en': '🇺🇸' };
+            const languageEmojis = { 'ar': '🇸🇦', 'en': '🇺🇸', 'sv': '🇸🇪' };
             languageSelector.textContent = `${languageEmojis[currentLanguage]} ${currentLanguage.toUpperCase()}`;
-            // Here you would typically change the language of the page
             document.documentElement.lang = currentLanguage;
             document.documentElement.dir = currentLanguage === 'ar' ? 'rtl' : 'ltr';
             translatePage();
@@ -316,49 +414,52 @@
         function translatePage() {
             const translations = {
                 'ar': {
+                    'store_title': 'BBLX - متجر ملابس الأطفال العصري',
                     'home': 'الرئيسية',
                     'products': 'المنتجات',
                     'about': 'من نحن',
                     'contact': 'اتصل بنا',
+                    'latest_collections': 'أحدث تشكيلات BBLX لملابس الأطفال',
+                    'discover': 'اكتشف مجموعتنا الرائعة من الملابس العصرية والمريحة لأطفالك. تصاميم فريدة تجمع بين الأناقة والراحة.',
                     'shop_now': 'تسوق الآن',
-                    'latest_collections': 'أحدث تشكيلات ملابس الأطفال',
-                    'discover': 'اكتشف مجموعتنا الرائعة من الملابس العصرية والمريحة لأطفالك',
                     'add_to_cart': 'أضف إلى السلة',
                     'view_details': 'عرض التفاصيل',
-                    'cart': 'سلة التسوق',
-                    'total': 'المجموع',
-                    'checkout': 'إتمام الشراء',
-                    'close': 'إغلاق'
-                },
-                'sv': {
-                    'home': 'Hem',
-                    'products': 'Produkter',
-                    'about': 'Om oss',
-                    'contact': 'Kontakta oss',
-                    'shop_now': 'Handla nu',
-                    'latest_collections': 'Senaste barnklädeskollektioner',
-                    'discover': 'Upptäck vårt fantastiska utbud av moderna och bekväma kläder för dina barn',
-                    'add_to_cart': 'Lägg i varukorgen',
-                    'view_details': 'Visa detaljer',
-                    'cart': 'Varukorg',
-                    'total': 'Totalt',
-                    'checkout': 'Till kassan',
-                    'close': 'Stäng'
+                    'about_store': 'عن BBLX',
+                    'store_description': 'نحن في BBLX نقدم أفضل ملابس الأطفال بجودة عالية وتصاميم عصرية بأسعار مناسبة.',
+                    'quick_links': 'روابط سريعة',
+                    'contact_us': 'تواصل معنا'
                 },
                 'en': {
+                    'store_title': 'BBLX - Modern Kids Clothing Store',
                     'home': 'Home',
                     'products': 'Products',
                     'about': 'About',
                     'contact': 'Contact',
+                    'latest_collections': 'Latest BBLX Kids Clothing Collections',
+                    'discover': 'Discover our amazing range of stylish and comfortable clothes for your children. Unique designs that combine elegance and comfort.',
                     'shop_now': 'Shop Now',
-                    'latest_collections': 'Latest Kids Clothing Collections',
-                    'discover': 'Discover our amazing range of stylish and comfortable clothes for your children',
                     'add_to_cart': 'Add to Cart',
                     'view_details': 'View Details',
-                    'cart': 'Shopping Cart',
-                    'total': 'Total',
-                    'checkout': 'Checkout',
-                    'close': 'Close'
+                    'about_store': 'About BBLX',
+                    'store_description': 'At BBLX, we offer the best quality children\'s clothing with modern designs at affordable prices.',
+                    'quick_links': 'Quick Links',
+                    'contact_us': 'Contact Us'
+                },
+                'sv': {
+                    'store_title': 'BBLX - Modern barnklädbutik',
+                    'home': 'Hem',
+                    'products': 'Produkter',
+                    'about': 'Om oss',
+                    'contact': 'Kontakt',
+                    'latest_collections': 'Senaste BBLX barnklädeskollektioner',
+                    'discover': 'Upptäck vårt fantastiska utbud av snygga och bekväma kläder för dina barn. Unika designs som kombinerar elegans och komfort.',
+                    'shop_now': 'Handla nu',
+                    'add_to_cart': 'Lägg i varukorgen',
+                    'view_details': 'Visa detaljer',
+                    'about_store': 'Om BBLX',
+                    'store_description': 'På BBLX erbjuder vi barnkläder av högsta kvalitet med moderna designs till överkomliga priser.',
+                    'quick_links': 'Snabblänkar',
+                    'contact_us': 'Kontakta oss'
                 }
             };
 
@@ -370,45 +471,35 @@
             });
         }
 
+        // Product Details Modal
+        const modal = document.getElementById("productModal");
+        const closeBtn = document.getElementsByClassName("close")[0];
+
         function viewProductDetails(productId) {
             const product = products.find(p => p.id === productId);
             if (product) {
-                const detailsHTML = `
-                    <div class="product-details">
-                        <img src="${product.image}" alt="${product.name}" class="product-image" style="max-width: 300px; height: auto;">
-                        <h2>${product.name}</h2>
-                        <p class="price">السعر: ${product.price.toFixed(2)} ريال</p>
-                        <p class="description">${product.description}</p>
-                        <button onclick="addToCart(${product.id})" class="add-to-cart-button" data-translate="add_to_cart">أضف إلى السلة</button>
-                        <button onclick="closeProductDetails()" class="close-button" data-translate="close">إغلاق</button>
-                    </div>
-                `;
-                const detailsContainer = document.createElement('div');
-                detailsContainer.innerHTML = detailsHTML;
-                detailsContainer.style.position = 'fixed';
-                detailsContainer.style.top = '50%';
-                detailsContainer.style.left = '50%';
-                detailsContainer.style.transform = 'translate(-50%, -50%)';
-                detailsContainer.style.backgroundColor = 'white';
-                detailsContainer.style.padding = '20px';
-                detailsContainer.style.boxShadow = '0 0 10px rgba(0,0,0,0.5)';
-                detailsContainer.style.zIndex = '1000';
-                detailsContainer.style.maxWidth = '80%';
-                detailsContainer.style.maxHeight = '80%';
-                detailsContainer.style.overflow = 'auto';
-                detailsContainer.style.borderRadius = '10px';
-                document.body.appendChild(detailsContainer);
+                document.getElementById("modalImage").src = product.image;
+                document.getElementById("modalTitle").textContent = product.name;
+                document.getElementById("modalPrice").textContent = `${product.price.toFixed(2)} ريال`;
+                document.getElementById("modalDescription").textContent = product.description;
+                document.getElementById("modalAddToCart").onclick = () => addToCart(product.id);
+                modal.style.display = "block";
             }
         }
 
-        function closeProductDetails() {
-            const detailsContainer = document.querySelector('.product-details').parentNode;
-            document.body.removeChild(detailsContainer);
+        closeBtn.onclick = function() {
+            modal.style.display = "none";
+        }
+
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
         }
 
         function addToCart(productId) {
             // Add your add to cart logic here
-            alert(`Added product ${productId} to cart`);
+            alert(`تمت إضافة المنتج ${productId} إلى السلة`);
         }
 
         // Initial language update
