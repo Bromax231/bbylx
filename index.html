@@ -4,9 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title data-translate="store_title">BBLX - متجر ملابس الأطفال العصري</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;700&display=swap');
         
         * {
             margin: 0;
@@ -217,6 +216,152 @@
             line-height: 1.6;
         }
 
+        /* Shopping Cart */
+        .cart-icon {
+            position: relative;
+            cursor: pointer;
+        }
+        .cart-count {
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            background-color: #e74c3c;
+            color: #fff;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 12px;
+        }
+        .cart-dropdown {
+            display: none;
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background-color: #fff;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            border-radius: 5px;
+            width: 300px;
+            padding: 20px;
+            z-index: 1000;
+        }
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+        }
+        .cart-item-image {
+            width: 50px;
+            height: 50px;
+            object-fit: cover;
+            border-radius: 5px;
+        }
+        .cart-item-details {
+            flex-grow: 1;
+            padding: 0 10px;
+        }
+        .cart-item-title {
+            font-size: 14px;
+            margin-bottom: 5px;
+        }
+        .cart-item-price {
+            font-size: 12px;
+            color: #3498db;
+        }
+        .cart-item-remove {
+            color: #e74c3c;
+            cursor: pointer;
+        }
+        .cart-total {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+            font-weight: bold;
+        }
+        .checkout-btn {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            background-color: #3498db;
+            color: #fff;
+            text-align: center;
+            border: none;
+            border-radius: 5px;
+            margin-top: 20px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .checkout-btn:hover {
+            background-color: #2980b9;
+        }
+
+        /* Checkout Modal */
+        .checkout-modal {
+            display: none;
+            position: fixed;
+            z-index: 1002;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.6);
+        }
+        .checkout-content {
+            background-color: #fefefe;
+            margin: 5% auto;
+            padding: 30px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 800px;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+        .checkout-form {
+            display: grid;
+            gap: 20px;
+        }
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+        .form-group label {
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        .form-group input,
+        .form-group select {
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .payment-options {
+            display: flex;
+            gap: 20px;
+            margin-top: 20px;
+        }
+        .payment-option {
+            flex: 1;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            text-align: center;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .payment-option:hover {
+            background-color: #f0f2f5;
+        }
+        .payment-option.selected {
+            background-color: #3498db;
+            color: #fff;
+        }
+
         /* Footer styles */
         footer {
             background-color: #34495e;
@@ -270,160 +415,6 @@
             color: #fff;
         }
 
-        /* Shopping Cart */
-        .cart-icon {
-            position: relative;
-            font-size: 24px;
-            color: #3498db;
-            cursor: pointer;
-        }
-        .cart-count {
-            position: absolute;
-            top: -10px;
-            right: -10px;
-            background-color: #e74c3c;
-            color: #fff;
-            border-radius: 50%;
-            padding: 2px 6px;
-            font-size: 12px;
-        }
-        #cart-modal {
-            display: none;
-            position: fixed;
-            z-index: 1001;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            overflow: auto;
-            background-color: rgba(0,0,0,0.6);
-        }
-        .cart-modal-content {
-            background-color: #fefefe;
-            margin: 10% auto;
-            padding: 30px;
-            border: 1px solid #888;
-            width: 80%;
-            max-width: 800px;
-            border-radius: 10px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-        }
-        .cart-items {
-            margin-bottom: 20px;
-        }
-        .cart-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 10px 0;
-            border-bottom: 1px solid #eee;
-        }
-        .cart-item-info {
-            display: flex;
-            align-items: center;
-        }
-        .cart-item-image {
-            width: 60px;
-            height: 60px;
-            object-fit: cover;
-            margin-right: 15px;
-            border-radius: 5px;
-        }
-        .cart-item-details h4 {
-            margin-bottom: 5px;
-        }
-        .cart-item-price {
-            font-weight: bold;
-            color: #3498db;
-        }
-        .cart-item-remove {
-            color: #e74c3c;
-            cursor: pointer;
-        }
-        .cart-total {
-            font-size: 20px;
-            font-weight: bold;
-            text-align: right;
-            margin-bottom: 20px;
-        }
-        .checkout-btn {
-            display: block;
-            width: 100%;
-            padding: 12px;
-            background-color: #3498db;
-            color: #fff;
-            border: none;
-            border-radius: 5px;
-            font-size: 18px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-        .checkout-btn:hover {
-            background-color: #2980b9;
-        }
-
-        /* Checkout Modal */
-        #checkout-modal {
-            display: none;
-            position: fixed;
-            z-index: 1002;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            overflow: auto;
-            background-color: rgba(0,0,0,0.6);
-        }
-        .checkout-modal-content {
-            background-color: #fefefe;
-            margin: 5% auto;
-            padding: 30px;
-            border: 1px solid #888;
-            width: 80%;
-            max-width: 600px;
-            border-radius: 10px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-        }
-        .checkout-form {
-            display: grid;
-            gap: 20px;
-        }
-        .form-group {
-            display: flex;
-            flex-direction: column;
-        }
-        .form-group label {
-            margin-bottom: 5px;
-            font-weight: bold;
-        }
-        .form-group input, .form-group select {
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            font-size: 16px;
-        }
-        .payment-options {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 20px;
-        }
-        .payment-option {
-            flex: 1;
-            text-align: center;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-        .payment-option:hover, .payment-option.selected {
-            background-color: #f0f2f5;
-        }
-        .payment-option img {
-            max-width: 80px;
-            height: auto;
-        }
-
         /* Responsive styles */
         @media (max-width: 768px) {
             .nav-links {
@@ -445,15 +436,10 @@
             .hero p {
                 font-size: 18px;
             }
-            .cart-modal-content, .checkout-modal-content {
-                width: 95%;
-                margin: 5% auto;
-            }
         }
     </style>
 </head>
 <body>
-    <header>
     <header>
         <nav class="container">
             <a href="#" class="logo">BBLX</a>
@@ -463,10 +449,19 @@
                 <li><a href="#about" data-translate="about">من نحن</a></li>
                 <li><a href="#contact" data-translate="contact">اتصل بنا</a></li>
             </ul>
-            <div class="cart-icon" onclick="openCartModal()">
-                <i class="fas fa-shopping-cart"></i>
+            <div class="cart-icon" onclick="toggleCart()">
+                🛒
                 <span class="cart-count">0</span>
             </div>
+            <div class="cart-dropdown">
+                <div class="cart-items"></div>
+                <div class="cart-total">
+                    <span data-translate="total">المجموع:</span>
+                    <span class="cart-total-price">0 ريال</span>
+                </div>
+                <button class="checkout-btn" onclick="openCheckoutModal()" data-translate="checkout">إتمام الشراء</button>
+            </div>
+            <button class="language-selector">🇸🇦 AR</button>div>
             <button class="language-selector">🇸🇦 AR</button>
         </nav>
     </header>
@@ -498,58 +493,47 @@
         </div>
     </div>
 
-    <div id="cart-modal" class="modal">
-        <div class="cart-modal-content">
-            <span class="close" onclick="closeCartModal()">&times;</span>
-            <h2 data-translate="shopping_cart">سلة التسوق</h2>
-            <div class="cart-items">
-                <!-- Cart items will be dynamically added here -->
-            </div>
-            <div class="cart-total">المجموع: <span id="cart-total-amount">0</span> ريال</div>
-            <button class="checkout-btn" onclick="openCheckoutModal()" data-translate="proceed_to_checkout">متابعة الدفع</button>
-        </div>
-    </div>
-
-    <div id="checkout-modal" class="modal">
-        <div class="checkout-modal-content">
+    <div id="checkoutModal" class="checkout-modal">
+        <div class="checkout-content">
             <span class="close" onclick="closeCheckoutModal()">&times;</span>
-            <h2 data-translate="checkout">الدفع</h2>
+            <h2 data-translate="checkout">إتمام الشراء</h2>
             <form class="checkout-form">
                 <div class="form-group">
                     <label for="name" data-translate="full_name">الاسم الكامل</label>
-                    <input type="text" id="name" name="name" required>
+                    <input type="text" id="name" required>
                 </div>
                 <div class="form-group">
                     <label for="email" data-translate="email">البريد الإلكتروني</label>
-                    <input type="email" id="email" name="email" required>
+                    <input type="email" id="email" required>
                 </div>
                 <div class="form-group">
                     <label for="address" data-translate="address">العنوان</label>
-                    <input type="text" id="address" name="address" required>
+                    <input type="text" id="address" required>
                 </div>
                 <div class="form-group">
                     <label for="city" data-translate="city">المدينة</label>
-                    <input type="text" id="city" name="city" required>
+                    <input type="text" id="city" required>
                 </div>
                 <div class="form-group">
-                    <label for="shipping" data-translate="shipping_method">طريقة الشحن</label>
-                    <select id="shipping" name="shipping">
-                        <option value="standard" data-translate="standard_shipping">الشحن القياسي</option>
-                        <option value="express" data-translate="express_shipping">الشحن السريع</option>
+                    <label for="delivery" data-translate="delivery_method">طريقة التوصيل</label>
+                    <select id="delivery" required>
+                        <option value="aramex" data-translate="aramex">أرامكس</option>
+                        <option value="fedex" data-translate="fedex">فيديكس</option>
+                        <option value="dhl" data-translate="dhl">دي إتش إل</option>
                     </select>
                 </div>
                 <h3 data-translate="payment_method">طريقة الدفع</h3>
                 <div class="payment-options">
-                    <div class="payment-option" onclick="selectPaymentMethod('credit_card')">
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Visa_Inc._logo.svg/2560px-Visa_Inc._logo.svg.png" alt="Credit Card">
+                    <div class="payment-option" onclick="selectPayment('credit_card')">
+                        <img src="https://via.placeholder.com/50" alt="Credit Card">
                         <p data-translate="credit_card">بطاقة ائتمان</p>
                     </div>
-                    <div class="payment-option" onclick="selectPaymentMethod('paypal')">
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/PayPal.svg/1280px-PayPal.svg.png" alt="PayPal">
+                    <div class="payment-option" onclick="selectPayment('paypal')">
+                        <img src="https://via.placeholder.com/50" alt="PayPal">
                         <p>PayPal</p>
                     </div>
-                    <div class="payment-option" onclick="selectPaymentMethod('klarna')">
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4f/Klarna-Logo.svg/2560px-Klarna-Logo.svg.png" alt="Klarna">
+                    <div class="payment-option" onclick="selectPayment('klarna')">
+                        <img src="https://via.placeholder.com/50" alt="Klarna">
                         <p>Klarna</p>
                     </div>
                 </div>
@@ -652,16 +636,16 @@
                     'store_description': 'نحن في BBLX نقدم أفضل ملابس الأطفال بجودة عالية وتصاميم عصرية بأسعار مناسبة.',
                     'quick_links': 'روابط سريعة',
                     'contact_us': 'تواصل معنا',
-                    'shopping_cart': 'سلة التسوق',
-                    'proceed_to_checkout': 'متابعة الدفع',
-                    'checkout': 'الدفع',
+                    'total': 'المجموع:',
+                    'checkout': 'إتمام الشراء',
                     'full_name': 'الاسم الكامل',
                     'email': 'البريد الإلكتروني',
                     'address': 'العنوان',
                     'city': 'المدينة',
-                    'shipping_method': 'طريقة الشحن',
-                    'standard_shipping': 'الشحن القياسي',
-                    'express_shipping': 'الشحن السريع',
+                    'delivery_method': 'طريقة التوصيل',
+                    'aramex': 'أرامكس',
+                    'fedex': 'فيديكس',
+                    'dhl': 'دي إتش إل',
                     'payment_method': 'طريقة الدفع',
                     'credit_card': 'بطاقة ائتمان',
                     'place_order': 'تأكيد الطلب'
@@ -681,16 +665,16 @@
                     'store_description': 'At BBLX, we offer the best quality children\'s clothing with modern designs at affordable prices.',
                     'quick_links': 'Quick Links',
                     'contact_us': 'Contact Us',
-                    'shopping_cart': 'Shopping Cart',
-                    'proceed_to_checkout': 'Proceed to Checkout',
+                    'total': 'Total:',
                     'checkout': 'Checkout',
-                    'full_name': 'Full Name','full_name': 'Full Name',
+                    'full_name': 'Full Name',
                     'email': 'Email',
                     'address': 'Address',
                     'city': 'City',
-                    'shipping_method': 'Shipping Method',
-                    'standard_shipping': 'Standard Shipping',
-                    'express_shipping': 'Express Shipping',
+                    'delivery_method': 'Delivery Method',
+                    'aramex': 'Aramex',
+                    'fedex': 'FedEx',
+                    'dhl': 'DHL',
                     'payment_method': 'Payment Method',
                     'credit_card': 'Credit Card',
                     'place_order': 'Place Order'
@@ -710,16 +694,16 @@
                     'store_description': 'På BBLX erbjuder vi barnkläder av högsta kvalitet med moderna designs till överkomliga priser.',
                     'quick_links': 'Snabblänkar',
                     'contact_us': 'Kontakta oss',
-                    'shopping_cart': 'Kundvagn',
-                    'proceed_to_checkout': 'Gå till kassan',
-                    'checkout': 'Kassa',
+                    'total': 'Totalt:',
+                    'checkout': 'Till kassan',
                     'full_name': 'Fullständigt namn',
                     'email': 'E-post',
                     'address': 'Adress',
                     'city': 'Stad',
-                    'shipping_method': 'Leveransmetod',
-                    'standard_shipping': 'Standardleverans',
-                    'express_shipping': 'Expressleverans',
+                    'delivery_method': 'Leveransmetod',
+                    'aramex': 'Aramex',
+                    'fedex': 'FedEx',
+                    'dhl': 'DHL',
                     'payment_method': 'Betalningsmetod',
                     'credit_card': 'Kreditkort',
                     'place_order': 'Lägg beställning'
@@ -741,74 +725,47 @@
             const product = products.find(p => p.id === productId);
             if (product) {
                 cart.push(product);
-                updateCartCount();
-                alert(`تمت إضافة ${product.name} إلى السلة`);
+                updateCartUI();
             }
         }
 
-        function updateCartCount() {
-            const cartCount = document.querySelector('.cart-count');
-            cartCount.textContent = cart.length;
-        }
-
-        function openCartModal() {
-            const cartModal = document.getElementById('cart-modal');
+        function updateCartUI() {
             const cartItems = document.querySelector('.cart-items');
-            const cartTotalAmount = document.getElementById('cart-total-amount');
+            const cartCount = document.querySelector('.cart-count');
+            const cartTotalPrice = document.querySelector('.cart-total-price');
 
             cartItems.innerHTML = '';
             let total = 0;
 
             cart.forEach(item => {
-                const cartItem = document.createElement('div');
-                cartItem.classList.add('cart-item');
-                cartItem.innerHTML = `
-                    <div class="cart-item-info">
+                cartItems.innerHTML += `
+                    <div class="cart-item">
                         <img src="${item.image}" alt="${item.name}" class="cart-item-image">
                         <div class="cart-item-details">
-                            <h4>${item.name}</h4>
+                            <h4 class="cart-item-title">${item.name}</h4>
                             <p class="cart-item-price">${item.price.toFixed(2)} ريال</p>
                         </div>
+                        <span class="cart-item-remove" onclick="removeFromCart(${item.id})">❌</span>
                     </div>
-                    <span class="cart-item-remove" onclick="removeFromCart(${item.id})">×</span>
                 `;
-                cartItems.appendChild(cartItem);
                 total += item.price;
             });
 
-            cartTotalAmount.textContent = total.toFixed(2);
-            cartModal.style.display = 'block';
-        }
-
-        function closeCartModal() {
-            const cartModal = document.getElementById('cart-modal');
-            cartModal.style.display = 'none';
+            cartCount.textContent = cart.length;
+            cartTotalPrice.textContent = `${total.toFixed(2)} ريال`;
         }
 
         function removeFromCart(productId) {
             const index = cart.findIndex(item => item.id === productId);
             if (index !== -1) {
                 cart.splice(index, 1);
-                updateCartCount();
-                openCartModal(); // Refresh the cart modal
+                updateCartUI();
             }
         }
 
-        function openCheckoutModal() {
-            const checkoutModal = document.getElementById('checkout-modal');
-            checkoutModal.style.display = 'block';
-            closeCartModal();
-        }
-
-        function closeCheckoutModal() {
-            const checkoutModal = document.getElementById('checkout-modal');
-            checkoutModal.style.display = 'none';
-        }
-
-        function selectPaymentMethod(method) {
-            const paymentOptions = document.querySelectorAll('.payment-option');
-            paymentOptions.forEach(option => option.classList.remove('selected'));
-            event.currentTarget.classList.add('selected');
+        function toggleCart() {
+            const cartDropdown = document.querySelector('.cart-dropdown');
+            cartDropdown.style.display = cartDropdown.style.display === 'block' ? 'none' : 'block';
         }
 
         // Product Details Modal
@@ -836,6 +793,32 @@
                 modal.style.display = "none";
             }
         }
+
+        // Checkout Modal
+        function openCheckoutModal() {
+            document.getElementById('checkoutModal').style.display = 'block';
+        }
+
+        function closeCheckoutModal() {
+            document.getElementById('checkoutModal').style.display = 'none';
+        }
+
+        function selectPayment(method) {
+            document.querySelectorAll('.payment-option').forEach(option => {
+                option.classList.remove('selected');
+            });
+            event.currentTarget.classList.add('selected');
+        }
+
+        // Form submission
+        document.querySelector('.checkout-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            // Here you would typically send the form data to your server
+            alert('شكراً لك! تم استلام طلبك بنجاح.');
+            closeCheckoutModal();
+            cart = [];
+            updateCartUI();
+        });
 
         // Initial language update
         updateLanguage();
