@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>متجر ملابس الأطفال</title>
+    <title data-translate="latest_collections">متجر ملابس الأطفال</title>
     <style>
         /* Reset and base styles */
         * {
@@ -154,6 +154,9 @@
                 margin-bottom: 30px;
             }
         }
+        .product-details {
+            text-align: right; /* Align text to the right for Arabic */
+        }
     </style>
 </head>
 <body>
@@ -161,20 +164,21 @@
         <nav class="container">
             <div class="logo">متجر الأطفال</div>
             <ul class="nav-links">
-                <li><a href="#home">الرئيسية</a></li>
-                <li><a href="#products">المنتجات</a></li>
-                <li><a href="#about">من نحن</a></li>
-                <li><a href="#contact">اتصل بنا</a></li>
+                <li><a href="#home" data-translate="home">الرئيسية</a></li>
+                <li><a href="#products" data-translate="products">المنتجات</a></li>
+                <li><a href="#about" data-translate="about">من نحن</a></li>
+                <li><a href="#contact" data-translate="contact">اتصل بنا</a></li>
             </ul>
+            <button class="language-selector">🇸🇦 AR</button>
         </nav>
     </header>
 
     <main>
         <section class="hero">
             <div class="container">
-                <h1>أحدث تشكيلات ملابس الأطفال</h1>
-                <p>اكتشف مجموعتنا الرائعة من الملابس العصرية والمريحة لأطفالك</p>
-                <a href="#products" class="btn">تسوق الآن</a>
+                <h1 data-translate="latest_collections">أحدث تشكيلات ملابس الأطفال</h1>
+                <p data-translate="discover">اكتشف مجموعتنا الرائعة من الملابس العصرية والمريحة لأطفالك</p>
+                <a href="#products" class="btn" data-translate="shop_now">تسوق الآن</a>
             </div>
         </section>
 
@@ -194,10 +198,10 @@
             <div class="footer-section">
                 <h3>روابط سريعة</h3>
                 <ul class="footer-links">
-                    <li><a href="#home">الرئيسية</a></li>
-                    <li><a href="#products">المنتجات</a></li>
-                    <li><a href="#about">من نحن</a></li>
-                    <li><a href="#contact">اتصل بنا</a></li>
+                    <li><a href="#home" data-translate="home">الرئيسية</a></li>
+                    <li><a href="#products" data-translate="products">المنتجات</a></li>
+                    <li><a href="#about" data-translate="about">من نحن</a></li>
+                    <li><a href="#contact" data-translate="contact">اتصل بنا</a></li>
                 </ul>
             </div>
             <div class="footer-section">
@@ -227,6 +231,8 @@
                     <div class="product-info">
                         <h3 class="product-title">${product.name}</h3>
                         <p class="product-price">${product.price} ريال</p>
+                        <button class="add-to-cart" onclick="addToCart(${product.id})" data-translate="add_to_cart">أضف إلى السلة</button>
+                        <button class="view-details" onclick="viewProductDetails(${product.id})" data-translate="view_details">عرض التفاصيل</button>
                     </div>
                 </div>
             `;
@@ -237,6 +243,125 @@
         products.forEach(product => {
             productGrid.innerHTML += createProductCard(product);
         });
+
+
+        // Language toggle functionality
+        const languageSelector = document.querySelector('.language-selector');
+        let currentLanguage = 'ar';
+        const languages = ['ar', 'sv', 'en'];
+
+        languageSelector.addEventListener('click', function() {
+            const currentIndex = languages.indexOf(currentLanguage);
+            const nextIndex = (currentIndex + 1) % languages.length;
+            currentLanguage = languages[nextIndex];
+            updateLanguage();
+        });
+
+        function updateLanguage() {
+            const languageEmojis = { 'ar': '🇸🇦', 'sv': '🇸🇪', 'en': '🇺🇸' };
+            languageSelector.textContent = `${languageEmojis[currentLanguage]} ${currentLanguage.toUpperCase()}`;
+            // Here you would typically change the language of the page
+            document.documentElement.lang = currentLanguage;
+            document.documentElement.dir = currentLanguage === 'ar' ? 'rtl' : 'ltr';
+            translatePage();
+        }
+
+        function translatePage() {
+            const translations = {
+                'ar': {
+                    'home': 'الرئيسية',
+                    'products': 'المنتجات',
+                    'about': 'من نحن',
+                    'contact': 'اتصل بنا',
+                    'shop_now': 'تسوق الآن',
+                    'latest_collections': 'أحدث تشكيلات ملابس الأطفال',
+                    'discover': 'اكتشف مجموعتنا الرائعة من الملابس العصرية والمريحة لأطفالك',
+                    'add_to_cart': 'أضف إلى السلة',
+                    'view_details': 'عرض التفاصيل',
+                    'cart': 'سلة التسوق',
+                    'total': 'المجموع',
+                    'checkout': 'إتمام الشراء',
+                    'close': 'إغلاق'
+                },
+                'sv': {
+                    'home': 'Hem',
+                    'products': 'Produkter',
+                    'about': 'Om oss',
+                    'contact': 'Kontakta oss',
+                    'shop_now': 'Handla nu',
+                    'latest_collections': 'Senaste barnklädeskollektioner',
+                    'discover': 'Upptäck vårt fantastiska utbud av moderna och bekväma kläder för dina barn',
+                    'add_to_cart': 'Lägg i varukorgen',
+                    'view_details': 'Visa detaljer',
+                    'cart': 'Varukorg',
+                    'total': 'Totalt',
+                    'checkout': 'Till kassan',
+                    'close': 'Stäng'
+                },
+                'en': {
+                    'home': 'Home',
+                    'products': 'Products',
+                    'about': 'About',
+                    'contact': 'Contact',
+                    'shop_now': 'Shop Now',
+                    'latest_collections': 'Latest Kids Clothing Collections',
+                    'discover': 'Discover our amazing range of stylish and comfortable clothes for your children',
+                    'add_to_cart': 'Add to Cart',
+                    'view_details': 'View Details',
+                    'cart': 'Shopping Cart',
+                    'total': 'Total',
+                    'checkout': 'Checkout',
+                    'close': 'Close'
+                }
+            };
+
+            document.querySelectorAll('[data-translate]').forEach(element => {
+                const key = element.getAttribute('data-translate');
+                if (translations[currentLanguage][key]) {
+                    element.textContent = translations[currentLanguage][key];
+                }
+            });
+        }
+
+        function viewProductDetails(productId) {
+            const product = products.find(p => p.id === productId);
+            if (product) {
+                const detailsHTML = `
+                    <div class="product-details">
+                        <img src="${product.image}" alt="${product.name}" class="product-image">
+                        <h2>${product.name}</h2>
+                        <p>السعر: ${product.price.toFixed(2)} ريال</p>
+                        <p>الوصف: هذا وصف تفصيلي للمنتج. يمكنك إضافة المزيد من المعلومات هنا.</p>
+                        <button onclick="closeProductDetails()" data-translate="close">إغلاق</button>
+                    </div>
+                `;
+                const detailsContainer = document.createElement('div');
+                detailsContainer.innerHTML = detailsHTML;
+                detailsContainer.style.position = 'fixed';
+                detailsContainer.style.top = '50%';
+                detailsContainer.style.left = '50%';
+                detailsContainer.style.transform = 'translate(-50%, -50%)';
+                detailsContainer.style.backgroundColor = 'white';
+                detailsContainer.style.padding = '20px';
+                detailsContainer.style.boxShadow = '0 0 10px rgba(0,0,0,0.5)';
+                detailsContainer.style.zIndex = '1000';
+                document.body.appendChild(detailsContainer);
+            }
+        }
+
+        function closeProductDetails() {
+            const detailsContainer = document.querySelector('.product-details').parentNode;
+            document.body.removeChild(detailsContainer);
+        }
+
+        function addToCart(productId) {
+            // Add your add to cart logic here
+            alert(`Added product ${productId} to cart`);
+        }
+
+        // Initial language update
+        updateLanguage();
     </script>
 </body>
 </html>
+
